@@ -1,18 +1,24 @@
 class IsPalindrome {
+    public class ListNode {										// Definition of a singly-linked list.
+		final int val;
+		ListNode next = null;
+		ListNode(int val) { this.val = val; }
+		ListNode(int val, ListNode prev) { this.val = val; prev.next = this; }
+    }
     public boolean isPalindrome(ListNode head) {
 		int length = 0;
 		ListNode tail = null;
-		for(ListNode q = head;q != null;q = q.next){						// finds length + tail of ListNode
+		for(ListNode q = head;q != null;q = q.next){						// Find the length and tail of a list of nodes
 			length++;
 			tail = q;
 		}
 		int count = 0;
-		for(ListNode p = head; p != null;p = p.next,++count){				// reverses half of the list
+		for(ListNode p = head; p != null;p = p.next,++count){		        		// Reverses the last half of the list
 			if(count == (length/2)) reverseList(p);
 		}
-		return areListsEqual(head,tail);									// check if both lists are =
+		return areListsEqual(head,tail);							// Check if first and last halves of the list are equal
 	}
-	public ListNode reverseList(ListNode head) {							// reversing a singly-linked list
+	public ListNode reverseList(ListNode head) {							// Reverse a singly-linked list
 		if (head == null) return head;
 		ListNode curr = head, after = null, before = null;
 		while(curr != null){
@@ -23,28 +29,14 @@ class IsPalindrome {
 		}
 		return before;
 	}
-	public boolean areListsEqual(ListNode head, ListNode tail){				// check if both lists are =
+	public boolean areListsEqual(ListNode head, ListNode tail){				        // Are two linked lists equal?
 		for(ListNode p =  head, q = tail; p != null && q != null; p = p.next,q = q.next){
 			if(p.val != q.val) return false;
 		}
 		return true;
 	}
-	public class ListNode {													// Definition for singly-linked list.
-		final int val;
-		ListNode next = null;
-		ListNode(int val) { this.val = val; }
-		ListNode(int val, ListNode prev) { this.val = val; prev.next = this; }
-	}
-
-	// ----------- TESTING ------------
-	public ListNode makeList(int vals[]){									// ListNode = [1 2 3 4 5 6] 
-		ListNode head = null, tail = null;
-		for(int i : vals) if(head == null) head = tail =  new ListNode(i);
-			else tail = tail.next = new ListNode(i,head);
-		return head;
-	}
 	
-	public String print(final ListNode head){								// printing method of our singly-linked list
+	public String print(final ListNode head){							// Print a singly linkedlist
 		String s = null;
 		ListNode p = head;
 		while(p != null){
@@ -53,47 +45,55 @@ class IsPalindrome {
 		}
 		return s == null ? "" : s;
 	}
-	public static void test0(){												// empty ListNode test
+
+	// ----------- TESTING ------------
+	public ListNode makeList(int vals[]){								// Six nodes
+		ListNode head = null, tail = null;
+		for(int i : vals) if(head == null) head = tail =  new ListNode(i);
+			else tail = tail.next = new ListNode(i,head);
+		return head;
+	}
+	public static void test0(){									// Empty list
 		IsPalindrome s = new IsPalindrome();
 		ListNode head = null;
 		assert(s.isPalindrome(head));
 	}
-	public static void test1(){												// one ListNode test
+	public static void test1(){									// One node
 		IsPalindrome s = new IsPalindrome();
 		ListNode head = s.makeList(new int[] {1});
 		assert(s.isPalindrome(head));
 	}
-	public static void test2a(){											// two ListNode test
+	public static void test2a(){									// Two nodes - good
 		IsPalindrome s = new IsPalindrome();
 		ListNode head = s.makeList(new int[] {1,1});
 		assert(s.isPalindrome(head));
 	}
-	public static void test2b(){											// two ListNode test
+	public static void test2b(){									// Two nodes - bad
 		IsPalindrome s = new IsPalindrome();
 		ListNode head = s.makeList(new int[] {1,2});
 		assert(!s.isPalindrome(head));
 	}
-	public static void test3a(){											// three ListNode test
+	public static void test3a(){									// Three nodes - good
 		IsPalindrome s = new IsPalindrome();
 		ListNode head = s.makeList(new int[] {1,2,3});
 		assert(!s.isPalindrome(head));
 	}
-	public static void test3b(){											// three ListNode test
+	public static void test3b(){									// Three nodes - bad
 		IsPalindrome s = new IsPalindrome();
 		ListNode head = s.makeList(new int[] {1,2,1});
 		assert(s.isPalindrome(head));
 	}
-	public static void test4a(){											// four ListNode test
+	public static void test4a(){									// Four nodes - good
 		IsPalindrome s = new IsPalindrome();
 		ListNode head = s.makeList(new int[] {1,2,2,1});
 		assert(s.isPalindrome(head));
 	}
-	public static void test4b(){											// four ListNode test
+	public static void test4b(){									// Four nodes - bad
 		IsPalindrome s = new IsPalindrome();
 		ListNode head = s.makeList(new int[] {1,2,1,2});
 		assert(!s.isPalindrome(head));
 	}
-	public static void main(String[] args){									// main test for linked list
+	public static void main(String[] args){								// Run all the tests if we are called via main
 		test0();
 		test1();
 		test2a();
